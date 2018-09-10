@@ -62,27 +62,25 @@ class App extends Component {
     return (
       <div>
         <ThemeProvider theme={theme}>
-          <RedialCard radial xl>
-            stuff
-          </RedialCard>
-        </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <RedialCard xl>stuff</RedialCard>
-        </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <RedialCard radial={diffRadial} xl>
-            stuff
-          </RedialCard>
-        </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <RedialCard radial={objRadial} xl>
-            stuff
-          </RedialCard>
-        </ThemeProvider>
-        <ThemeProvider theme={theme}>
-          <RedialCard radial={bigObjRadial} xl>
-            stuff
-          </RedialCard>
+          <div>
+            <RedialCard radial xl>
+              stuff
+            </RedialCard>
+
+            <RedialCard xl>stuff</RedialCard>
+
+            <RedialCard radial={diffRadial} xl>
+              stuff
+            </RedialCard>
+
+            <RedialCard radial={objRadial} xl>
+              stuff
+            </RedialCard>
+
+            <RedialCard radial={bigObjRadial} xl>
+              stuff
+            </RedialCard>
+          </div>
         </ThemeProvider>
       </div>
     );
