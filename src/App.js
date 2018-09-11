@@ -3,12 +3,15 @@ import style, { ThemeProvider } from 'styled-components';
 
 const gradientPaser = value => {
   if (typeof value === 'object' && value.constructor === Object) {
-    const gradientRepeat = value.repeat
-      ? 'repeating-radial-gradient'
+    const gradientType = value.type
+      ? `${value.type}-gradient`
       : 'radial-gradient';
+    const gradientRepeat = value.repeat
+      ? `repeating-${gradientType}`
+      : `${gradientType}`;
     const shape = value.shape ? `${value.shape}` : '';
     const size = value.size ? `${value.size}` : '';
-    const position = value.position ? `at ${value.position},` : '';
+    const position = value.position ? `${value.position},` : '';
     const colors = value.colors.join(',');
     const values = `${shape}${size} ${position} ${colors}`.trimStart();
     return `${gradientRepeat}(${values})`;
@@ -27,10 +30,11 @@ const Slide = style.div`
   width: 500px;
   height: 500px;
   background: ${props => {
-    return props.radial
-      ? gradientPaser(props.radial)
+    return props.gradient
+      ? gradientPaser(props.gradient)
       : props.theme.colors.primary;
   }};
+  color: ${props => props.theme.colors.text};
 `;
 
 const GridContainer = style.div`
@@ -43,7 +47,7 @@ const theme = {
   colors: {
     primary: 'royalblue',
     secondary: 'teal',
-    text: 'black'
+    text: 'white'
   },
   fontSize: {
     xl: '2.4rem',
@@ -54,41 +58,87 @@ const theme = {
   }
 };
 
-const objRadial = {
+const objGradient = {
   colors: ['red', 'green', 'yellow', 'purple', 'blue']
 };
 
-const objRadial1 = {
+const objGradient1 = {
   colors: ['#708090', '#48D1CC', '#FF00FF']
 };
 
 const objRepeatRadial = {
   repeat: true,
-  colors: ['green', 'yellow']
+  colors: ['yellow 10%', 'green 15%']
 };
 
-const smObjRadial = {
-  position: 'bottom right',
+const smObjGradient = {
+  position: 'at bottom right',
   colors: ['purple 30%', '#FFA07A 45%', '	#9400D3 20%']
 };
 
-const mObjRadial = {
+const mObjGradient = {
   size: 'closest-corner',
-  position: '60% 55%',
+  position: 'at 60% 55%',
   colors: ['#F08080', 'rgba(255,0,0,1)']
 };
 
-const lObjRadial = {
+const lObjGradient = {
   shape: 'circle',
-  position: 'bottom left',
+  position: 'at bottom left',
   colors: ['white', 'black']
 };
 
-const wontWork = {
+const wontWorkGradient = {
   size: 'closest-side',
   shape: 'circle',
-  position: 'bottom left',
+  position: 'at bottom left',
   colors: ['white', 'black']
+};
+
+const objLinear = {
+  type: 'linear',
+  colors: ['red', 'green', 'yellow', 'purple', 'blue']
+};
+
+const objLinear1 = {
+  type: 'linear',
+  colors: ['#708090', '#48D1CC', '#FF00FF']
+};
+
+const objRepeatLinear = {
+  type: 'linear',
+  repeat: true,
+  colors: ['yellow 10%', 'green 15%']
+};
+
+const toRightObjLinear = {
+  type: 'linear',
+  position: 'to right',
+  colors: ['purple 30%', '#FFA07A 45%', '	#9400D3 20%']
+};
+
+const toLeftObjLinear = {
+  type: 'linear',
+  position: 'to left',
+  colors: ['#F08080', '#9400D3']
+};
+
+const toLeftTopObjLinear = {
+  type: 'linear',
+  position: 'to left top',
+  colors: ['white 35%', 'black 10%']
+};
+
+const toRightBottomObjLinear = {
+  type: 'linear',
+  position: 'to right bottom',
+  colors: ['#F4A460 35%', 'black 10%', '#663399']
+};
+
+const degreeObjLinear = {
+  type: 'linear',
+  position: '90deg',
+  colors: ['#F4A460 35%', 'black 10%', '#663399']
 };
 
 class App extends Component {
@@ -97,38 +147,65 @@ class App extends Component {
       <div>
         <ThemeProvider theme={theme}>
           <GridContainer>
-            <Slide xl>NO radial-gradient</Slide>
+            <Slide xl>NO gradient</Slide>
+            <Slide xl>NO gradient</Slide>
 
-            <Slide radial xl>
-              Radial-gradient 1
+            <Slide gradient xl>
+              gradient default
+            </Slide>
+            <Slide gradient xl>
+              gradient default
             </Slide>
 
-            <Slide radial={objRadial} xl>
-              Radial-gradient 3 diffRadia
+            <Slide gradient={objGradient} xl>
+              Radial-gradient 1 objGradient
+            </Slide>
+            <Slide gradient={objLinear} xl>
+              Linear-gradient 1 objLinear
             </Slide>
 
-            <Slide radial={objRadial1} xl>
-              Radial-gradient 4 diffRadial2
+            <Slide gradient={objGradient1} xl>
+              Radial-gradient 2 objGradient1
+            </Slide>
+            <Slide gradient={objLinear1} xl>
+              Linear-gradient 2 objLinear1
             </Slide>
 
-            <Slide radial={objRepeatRadial} xl>
-              Radial-gradient 5 objRadial
+            <Slide gradient={objRepeatRadial} xl>
+              Radial-gradient 3 objRepeatRadial
+            </Slide>
+            <Slide gradient={objRepeatLinear} xl>
+              Linear-gradient 3 objRepeatLinear
             </Slide>
 
-            <Slide radial={smObjRadial} xl>
-              Radial-gradient 6 smObjRadial
+            <Slide gradient={smObjGradient} xl>
+              Radial-gradient 4 smObjGradient
+            </Slide>
+            <Slide gradient={toRightObjLinear} xl>
+              Linear-gradient 4 toRightObjLinear
             </Slide>
 
-            <Slide radial={mObjRadial} xl>
-              Radial-gradient 7 mObjRadial
+            <Slide gradient={mObjGradient} xl>
+              Radial-gradient 5 mObjGradient
+            </Slide>
+            <Slide gradient={toLeftObjLinear} xl>
+              Linear-gradient 5 toLeftObjLinear
             </Slide>
 
-            <Slide radial={lObjRadial} xl>
-              Radial-gradient 8 lObjRadial
+            <Slide gradient={lObjGradient} xl>
+              Radial-gradient 6 lObjGradient
             </Slide>
 
-            <Slide radial={wontWork} xl>
-              Radial-gradient 9 wontWork size or shape
+            <Slide gradient={toLeftTopObjLinear} xl>
+              Linear-gradient 6 toLeftTopObjLinear
+            </Slide>
+
+            <Slide gradient={toRightBottomObjLinear} xl>
+              Linear-gradient 7 toRightBottomObjLinear
+            </Slide>
+
+            <Slide gradient={degreeObjLinear} xl>
+              Linear-gradient 7 degreeObjLinear
             </Slide>
           </GridContainer>
         </ThemeProvider>
