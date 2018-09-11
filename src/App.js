@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import style, { ThemeProvider } from 'styled-components';
 
-const RedialCard = style.div`
+const gradientPaser = value => {
+  if (typeof value === 'object' && value.constructor === Object) {
+    const gradientRepeat = value.repeat
+      ? 'repeating-radial-gradient'
+      : 'radial-gradient';
+    const shape = value.shape ? `${value.shape}` : '';
+    const size = value.size ? `${value.size}` : '';
+    const position = value.position ? `at ${value.position},` : '';
+    const colors = value.colors.join(',');
+    const values = `${shape}${size} ${position} ${colors}`.trimStart();
+    return `${gradientRepeat}(${values})`;
+  }
+  return 'radial-gradient(red, green, blue)';
+};
+
+const Slide = style.div`
   font-size: ${props => {
     if (props.xl) return props.theme.fontSize.xl;
     if (props.lg) return props.theme.fontSize.lg;
@@ -12,19 +27,16 @@ const RedialCard = style.div`
   width: 500px;
   height: 500px;
   background: ${props => {
-    // console.log(typeof props.radial);
-    if (typeof props.radial === 'string') return props.radial;
-    if (typeof props.radial === 'object') {
-      const shape = props.radial.shape ? `${props.radial.shape},` : '';
-      const size = props.radial.size ? `${props.radial.size},` : '';
-      const position = props.radial.position ? `${props.radial.position},` : '';
-      return `radial-gradient( ${position} ${props.radial.startColor}, ${
-        props.radial.lastColor
-      })`;
-    }
-    if (props.radial) return 'radial-gradient(at top right, red, green, blue)';
-    return props.theme.colors.primary;
+    return props.radial
+      ? gradientPaser(props.radial)
+      : props.theme.colors.primary;
   }};
+`;
+
+const GridContainer = style.div`
+  display: grid;
+  grid-gap: 50px 50px;
+  grid-template-columns: auto auto;
 `;
 
 const theme = {
@@ -42,45 +54,83 @@ const theme = {
   }
 };
 
-const diffRadial = 'radial-gradient(red, blue)';
 const objRadial = {
-  startColor: 'green',
-  lastColor: 'yellow'
+  colors: ['red', 'green', 'yellow', 'purple', 'blue']
 };
-const bigObjRadial = {
+
+const objRadial1 = {
+  colors: ['#708090', '#48D1CC', '#FF00FF']
+};
+
+const objRepeatRadial = {
+  repeat: true,
+  colors: ['green', 'yellow']
+};
+
+const smObjRadial = {
+  position: 'bottom right',
+  colors: ['purple 30%', '#FFA07A 45%', '	#9400D3 20%']
+};
+
+const mObjRadial = {
+  size: 'closest-corner',
+  position: '60% 55%',
+  colors: ['#F08080', 'rgba(255,0,0,1)']
+};
+
+const lObjRadial = {
   shape: 'circle',
-  size: 'farthest-corner',
-  position: 'at bottom left',
-  startColor: 'white',
-  lastColor: 'black'
+  position: 'bottom left',
+  colors: ['white', 'black']
+};
+
+const wontWork = {
+  size: 'closest-side',
+  shape: 'circle',
+  position: 'bottom left',
+  colors: ['white', 'black']
 };
 
 class App extends Component {
   render() {
-    // console.log(diffRadial);
-
     return (
       <div>
         <ThemeProvider theme={theme}>
-          <div>
-            <RedialCard radial xl>
-              stuff
-            </RedialCard>
+          <GridContainer>
+            <Slide xl>NO radial-gradient</Slide>
 
-            <RedialCard xl>stuff</RedialCard>
+            <Slide radial xl>
+              Radial-gradient 1
+            </Slide>
 
-            <RedialCard radial={diffRadial} xl>
-              stuff
-            </RedialCard>
+            <Slide radial={objRadial} xl>
+              Radial-gradient 3 diffRadia
+            </Slide>
 
-            <RedialCard radial={objRadial} xl>
-              stuff
-            </RedialCard>
+            <Slide radial={objRadial1} xl>
+              Radial-gradient 4 diffRadial2
+            </Slide>
 
-            <RedialCard radial={bigObjRadial} xl>
-              stuff
-            </RedialCard>
-          </div>
+            <Slide radial={objRepeatRadial} xl>
+              Radial-gradient 5 objRadial
+            </Slide>
+
+            <Slide radial={smObjRadial} xl>
+              Radial-gradient 6 smObjRadial
+            </Slide>
+
+            <Slide radial={mObjRadial} xl>
+              Radial-gradient 7 mObjRadial
+            </Slide>
+
+            <Slide radial={lObjRadial} xl>
+              Radial-gradient 8 lObjRadial
+            </Slide>
+
+            <Slide radial={wontWork} xl>
+              Radial-gradient 9 wontWork size or shape
+            </Slide>
+          </GridContainer>
         </ThemeProvider>
       </div>
     );
