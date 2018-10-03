@@ -30,8 +30,8 @@ const Slide = style.div`
   width: 500px;
   height: 500px;
   background: ${props => {
-    return props.gradient
-      ? gradientPaser(props.gradient)
+    return props.bgGradient
+      ? gradientPaser(props.bgGradient)
       : props.theme.colors.primary;
   }};
   color: ${props => props.theme.colors.text};
@@ -88,13 +88,6 @@ const lObjGradient = {
   colors: ['white', 'black']
 };
 
-const wontWorkGradient = {
-  size: 'closest-side',
-  shape: 'circle',
-  position: 'at bottom left',
-  colors: ['white', 'black']
-};
-
 const objLinear = {
   type: 'linear',
   colors: ['red', 'green', 'yellow', 'purple', 'blue']
@@ -141,71 +134,85 @@ const degreeObjLinear = {
   colors: ['#F4A460 35%', 'black 10%', '#663399']
 };
 
+const wrongTypeArray = ['red', 'blue'];
+
+const wrongTypeString = 'red, blue';
+
+const wrongTypeNull = null;
+
+console.log(wrongTypeNull === null);
+
 class App extends Component {
   render() {
     return (
       <div>
         <ThemeProvider theme={theme}>
           <GridContainer>
-            <Slide xl>NO gradient</Slide>
-            <Slide xl>NO gradient</Slide>
+            <Slide xl>NO bgGradient</Slide>
 
-            <Slide gradient xl>
-              gradient default
-            </Slide>
-            <Slide gradient xl>
-              gradient default
+            <Slide bgGradient xl>
+              bgGradient default
             </Slide>
 
-            <Slide gradient={objGradient} xl>
+            <Slide bgGradient={objGradient} xl>
               Radial-gradient 1 objGradient
             </Slide>
-            <Slide gradient={objLinear} xl>
+            <Slide bgGradient={objLinear} xl>
               Linear-gradient 1 objLinear
             </Slide>
 
-            <Slide gradient={objGradient1} xl>
+            <Slide bgGradient={objGradient1} xl>
               Radial-gradient 2 objGradient1
             </Slide>
-            <Slide gradient={objLinear1} xl>
+            <Slide bgGradient={objLinear1} xl>
               Linear-gradient 2 objLinear1
             </Slide>
 
-            <Slide gradient={objRepeatRadial} xl>
+            <Slide bgGradient={objRepeatRadial} xl>
               Radial-gradient 3 objRepeatRadial
             </Slide>
-            <Slide gradient={objRepeatLinear} xl>
+            <Slide bgGradient={objRepeatLinear} xl>
               Linear-gradient 3 objRepeatLinear
             </Slide>
 
-            <Slide gradient={smObjGradient} xl>
+            <Slide bgGradient={smObjGradient} xl>
               Radial-gradient 4 smObjGradient
             </Slide>
-            <Slide gradient={toRightObjLinear} xl>
+            <Slide bgGradient={toRightObjLinear} xl>
               Linear-gradient 4 toRightObjLinear
             </Slide>
 
-            <Slide gradient={mObjGradient} xl>
+            <Slide bgGradient={mObjGradient} xl>
               Radial-gradient 5 mObjGradient
             </Slide>
-            <Slide gradient={toLeftObjLinear} xl>
+            <Slide bgGradient={toLeftObjLinear} xl>
               Linear-gradient 5 toLeftObjLinear
             </Slide>
 
-            <Slide gradient={lObjGradient} xl>
+            <Slide bgGradient={lObjGradient} xl>
               Radial-gradient 6 lObjGradient
             </Slide>
 
-            <Slide gradient={toLeftTopObjLinear} xl>
+            <Slide bgGradient={toLeftTopObjLinear} xl>
               Linear-gradient 6 toLeftTopObjLinear
             </Slide>
 
-            <Slide gradient={toRightBottomObjLinear} xl>
+            <Slide bgGradient={toRightBottomObjLinear} xl>
               Linear-gradient 7 toRightBottomObjLinear
             </Slide>
 
-            <Slide gradient={degreeObjLinear} xl>
+            <Slide bgGradient={degreeObjLinear} xl>
               Linear-gradient 7 degreeObjLinear
+            </Slide>
+
+            <Slide bgGradient={wrongTypeArray} xl>
+              wrongTypeArray
+            </Slide>
+            <Slide bgGradient={wrongTypeNull} xl>
+              wrongTypeNull
+            </Slide>
+            <Slide bgGradient={wrongTypeString} xl>
+              wrongTypeString
             </Slide>
           </GridContainer>
         </ThemeProvider>
